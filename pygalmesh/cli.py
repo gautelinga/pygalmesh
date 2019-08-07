@@ -6,7 +6,7 @@ import sys
 import meshio
 
 from .__about__ import __version__, __copyright__
-from .main import generate_volume_mesh_from_surface_mesh, generate_from_inr
+from .main import generate_volume_mesh_from_surface_mesh, generate_from_inr, remesh_surface
 from _pygalmesh import _get_cgal_version
 
 
@@ -238,6 +238,111 @@ def _get_inr_parser():
     parser.add_argument(
         "--cell-size", "-c", type=float, default=0.0, help="cell size (default: 0.0)"
     )
+
+    parser.add_argument(
+        "--quiet",
+        "-q",
+        action="store_true",
+        default=False,
+        help="quiet mode (default: False)",
+    )
+
+    parser.add_argument(
+        "--version", "-v", action="version", version=_get_version_text()
+    )
+    return parser
+
+
+def remesh_surf(argv=None):
+    parser = _get_remesh_surf_parser()
+    args = parser.parse_args()
+
+    input_mesh = meshio.read(args.infile)
+    mesh = remesh_surface(
+        input_mesh,
+        edge_size=args.edge_size,
+        facet_angle=args.facet_angle,
+        facet_size=args.facet_size,
+        facet_distance=args.facet_distance,
+        verbose=not args.quiet,
+    )
+    meshio.write(args.outfile, mesh)
+    return
+
+
+def _get_remesh_surf_parser():
+    parser = argparse.ArgumentParser(
+        description="Remesh surface mesh.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+
+    parser.add_argument("infile", type=str, help="input surface mesh file")
+
+    parser.add_argument("outfile", type=str, help="output surface mesh file")
+
+    # parser.add_argument(
+    #     "--lloyd",
+    #     "-l",
+    #     type=bool,
+    #     default=False,
+    #     help="Lloyd smoothing (default: false)",
+    # )
+
+    # parser.add_argument(
+    #     "--odt",
+    #     "-o",
+    #     action="store_true",
+    #     default=False,
+    #     help="ODT smoothing (default: false)",
+    # )
+
+    # parser.add_argument(
+    #     "--perturb",
+    #     "-p",
+    #     action="store_true",
+    #     default=False,
+    #     help="perturb (default: false)",
+    # )
+
+    # parser.add_argument(
+    #     "--exude",
+    #     "-x",
+    #     action="store_true",
+    #     default=False,
+    #     help="exude (default: false)",
+    # )
+
+    parser.add_argument(
+        "--edge-size", "-e", type=float, default=0.0, help="edge size (default: 0.0)"
+    )
+
+    parser.add_argument(
+        "--facet-angle",
+        "-a",
+        type=float,
+        default=0.0,
+        help="facet angle (default: 0.0)",
+    )
+
+    parser.add_argument(
+        "--facet-size", "-s", type=float, default=0.0, help="facet size (default: 0.0)"
+    )
+
+    parser.add_argument(
+        "--facet-distance",
+        "-d",
+        type=float,
+        default=0.0,
+        help="facet distance (default: 0.0)",
+    )
+
+    # parser.add_argument(
+    #     "--cell-radius-edge-ratio",
+    #     "-r",
+    #     type=float,
+    #     default=0.0,
+    #     help="cell radius/edge ratio (default: 0.0)",
+    # )
 
     parser.add_argument(
         "--quiet",
