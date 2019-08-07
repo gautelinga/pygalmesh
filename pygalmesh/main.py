@@ -12,6 +12,7 @@ from _pygalmesh import (
     _generate_periodic_mesh,
     _generate_surface_mesh,
     _remesh_surface,
+    _orient_surface_mesh,
 )
 
 
@@ -157,6 +158,28 @@ def remesh_surface(
     os.remove(infile)
     os.remove(outfile)
     return mesh
+
+
+def orient_surface_mesh(
+    mesh,
+    verbose=True
+):
+    fh_in, infile = tempfile.mkstemp(suffix=".off")
+    os.close(fh_in)
+    meshio.write(infile, mesh)
+
+    fh_out, outfile = tempfile.mkstemp(suffix=".off")
+    os.close(fh_out)
+
+    _orient_surface_mesh(
+        infile,
+        outfile,
+        verbose=verbose,
+    )
+    mesh_out = meshio.read(outfile)
+    os.remove(infile)
+    os.remove(outfile)
+    return mesh_out
 
 
 def generate_volume_mesh_from_surface_mesh(

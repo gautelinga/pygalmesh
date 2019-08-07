@@ -42,6 +42,7 @@ ext_modules = [
             "src/generate_periodic.cpp",
             "src/generate_surface_mesh.cpp",
             "src/remesh_surface.cpp",
+            "src/orient_surface_mesh.cpp",
             "src/version.cpp",
             "src/pybind11.cpp",
         ],

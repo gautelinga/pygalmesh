@@ -5,6 +5,7 @@
 #include "generate_periodic.hpp"
 #include "generate_surface_mesh.hpp"
 #include "remesh_surface.hpp"
+#include "orient_surface_mesh.hpp"
 #include "polygon2d.hpp"
 #include "primitives.hpp"
 #include "version.hpp"
@@ -290,6 +291,12 @@ PYBIND11_MODULE(_pygalmesh, m) {
 	py::arg("facet_angle") = 0.0,
 	py::arg("facet_size") = 0.0,
 	py::arg("facet_distance") = 0.0,
+	py::arg("verbose") = true
+	);
+    m.def(
+	"_orient_surface_mesh", &orient_surface_mesh,
+	py::arg("infile"),
+	py::arg("outfile"),
 	py::arg("verbose") = true
 	);
     m.def(
