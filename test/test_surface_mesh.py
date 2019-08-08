@@ -30,7 +30,9 @@ def test_sphere():
 
 
 def test_remesh_lion():
-    mesh_in = meshio.read("lion-head.off")
+    helpers.download("lion-head.off", "e4b00c47fee69a37a0d95ab71a63cc74",
+                     url="https://raw.githubusercontent.com/CGAL/cgal/master/Mesh_3/examples/Mesh_3/data/")
+    mesh_in = meshio.read("/tmp/lion-head.off")
     mesh_out = pygalmesh.remesh_surface(
         mesh_in,
         edge_size=0.025,
@@ -48,3 +50,21 @@ def test_remesh_lion():
 
     assert err_rel < 0.005
     return
+
+
+def test_orient_lion():
+    helpers.download("lion-head.off", "e4b00c47fee69a37a0d95ab71a63cc74",
+                     url="https://raw.githubusercontent.com/CGAL/cgal/master/Mesh_3/examples/Mesh_3/data/")
+    mesh = meshio.read("/tmp/lion-head.off")
+    faces = mesh.cells["triangle"]
+    area = sum(helpers.compute_triangle_areas(mesh.points, faces))
+
+    # Shuffle some normals
+    for i in [10, 20, 30, 40, 50]:
+        faces[i, [0, 1]] = faces[i, [1, 0]]
+
+    mesh.cells["triangle"] = faces
+    mesh_oriented = pygalmesh.orient_surface_mesh(mesh)
+    area_oriented = sum(helpers.compute_triangle_areas(mesh_oriented.points, mesh_oriented.cells["triangle"]))
+
+    assert area == area_oriented

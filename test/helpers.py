@@ -38,11 +38,10 @@ def compute_triangle_areas(vertices, triangles):
     return areas
 
 
-def download(name, md5):
+def download(name, md5, url="https://nschloe.github.io/pygalmesh/"):
     filename = os.path.join("/tmp", name)
     if not os.path.exists(filename):
         print("Downloading {}...".format(name))
-        url = "https://nschloe.github.io/pygalmesh/"
         r = requests.get(url + name, stream=True)
         if not r.ok:
             raise RuntimeError(

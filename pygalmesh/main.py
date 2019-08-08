@@ -183,7 +183,7 @@ def orient_surface_mesh(
 
 
 def generate_volume_mesh_from_surface_mesh(
-    filename,
+    mesh,
     lloyd=False,
     odt=False,
     perturb=True,
@@ -196,7 +196,8 @@ def generate_volume_mesh_from_surface_mesh(
     cell_size=0.0,
     verbose=True,
 ):
-    mesh = meshio.read(filename)
+    if isinstance(mesh, str):
+        mesh = meshio.read(mesh)
 
     fh, off_file = tempfile.mkstemp(suffix=".off")
     os.close(fh)
