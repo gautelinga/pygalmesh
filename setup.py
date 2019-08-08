@@ -39,6 +39,7 @@ ext_modules = [
             "src/generate.cpp",
             "src/generate_from_inr.cpp",
             "src/generate_from_off.cpp",
+            "src/generate_from_off_with_features.cpp",
             "src/generate_periodic.cpp",
             "src/generate_surface_mesh.cpp",
             "src/remesh_surface.cpp",

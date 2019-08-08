@@ -9,6 +9,7 @@ from _pygalmesh import (
     _generate_mesh,
     _generate_from_inr,
     _generate_from_off,
+    _generate_from_off_with_features,
     _generate_periodic_mesh,
     _generate_surface_mesh,
     _remesh_surface,
@@ -188,6 +189,7 @@ def generate_volume_mesh_from_surface_mesh(
     odt=False,
     perturb=True,
     exude=True,
+    detect_features=False,
     edge_size=0.0,
     facet_angle=0.0,
     facet_size=0.0,
@@ -206,21 +208,38 @@ def generate_volume_mesh_from_surface_mesh(
     fh, outfile = tempfile.mkstemp(suffix=".mesh")
     os.close(fh)
 
-    _generate_from_off(
-        off_file,
-        outfile,
-        lloyd=lloyd,
-        odt=odt,
-        perturb=perturb,
-        exude=exude,
-        edge_size=edge_size,
-        facet_angle=facet_angle,
-        facet_size=facet_size,
-        facet_distance=facet_distance,
-        cell_radius_edge_ratio=cell_radius_edge_ratio,
-        cell_size=cell_size,
-        verbose=verbose,
-    )
+    if detect_features:
+        _generate_from_off_with_features(
+            off_file,
+            outfile,
+            lloyd=lloyd,
+            odt=odt,
+            perturb=perturb,
+            exude=exude,
+            edge_size=edge_size,
+            facet_angle=facet_angle,
+            facet_size=facet_size,
+            facet_distance=facet_distance,
+            cell_radius_edge_ratio=cell_radius_edge_ratio,
+            cell_size=cell_size,
+            verbose=verbose,
+        )
+    else:
+        _generate_from_off(
+            off_file,
+            outfile,
+            lloyd=lloyd,
+            odt=odt,
+            perturb=perturb,
+            exude=exude,
+            edge_size=edge_size,
+            facet_angle=facet_angle,
+            facet_size=facet_size,
+            facet_distance=facet_distance,
+            cell_radius_edge_ratio=cell_radius_edge_ratio,
+            cell_size=cell_size,
+            verbose=verbose,
+        )
 
     mesh = meshio.read(outfile)
     os.remove(off_file)
