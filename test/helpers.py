@@ -1,12 +1,4 @@
-# -*- coding: utf-8 -*-
-#
-import hashlib
-import os
-import pathlib
-import shutil
-
 import numpy
-import requests
 
 
 def _row_dot(a, b):

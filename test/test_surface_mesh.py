@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-#
 import numpy
 import meshio
 
-import pygalmesh
-
 import helpers
+import pygalmesh
 
 
 def test_sphere():

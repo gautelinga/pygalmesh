@@ -9,4 +9,5 @@ include src/remesh_surface.hpp
 include src/orient_surface_mesh.hpp
 include src/polygon2d.hpp
 include src/primitives.hpp
+include src/sizing_field.hpp
 include src/version.hpp
