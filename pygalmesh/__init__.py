@@ -24,7 +24,9 @@ from _pygalmesh import (
 
 from .main import (
     generate_mesh,
+    generate_mesh_from_vox,
     generate_periodic_mesh,
+    generate_periodic_mesh_from_vox,
     generate_surface_mesh,
     remesh_surface,
     orient_surface_mesh,
@@ -74,8 +76,10 @@ __all__ = [
     "RingExtrude",
     #
     "generate_mesh",
+    "generate_mesh_from_vox",
     "generate_with_sizing_field",
     "generate_periodic_mesh",
+    "generate_periodic_mesh_from_vox",
     "generate_surface_mesh",
     "remesh_surface",
     "orient_surface_mesh",

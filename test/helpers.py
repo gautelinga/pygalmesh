@@ -54,3 +54,39 @@ def download(name, md5, url="https://nschloe.github.io/pygalmesh/"):
         raise RuntimeError("Checksums not matching ({} != {}).".format(file_md5, md5))
 
     return filename
+
+
+def crossing_cubes_vox(Lx, Ly, Lz, Nx, Ny, Nz, R, eps):
+    x = numpy.linspace(0, Lx, Nx, endpoint=False)
+    y = numpy.linspace(0, Ly, Ny, endpoint=False)
+    z = numpy.linspace(0, Lz, Nz, endpoint=False)
+
+    X, Y, Z = numpy.meshgrid(x, y, z, indexing="ij")
+
+    Rxy = numpy.sqrt((X - Lx / 2)**2 + (Y - Ly / 2)**2)
+    Rxz = numpy.sqrt((X - Lx / 2)**2 + (Z - Lz / 2)**2)
+    Ryz = numpy.sqrt((Y - Ly / 2)**2 + (Z - Lz / 2)**2)
+
+    C = -numpy.maximum(numpy.maximum(-numpy.tanh((Rxy - R) / (numpy.sqrt(2) * eps)),
+                                     -numpy.tanh((Rxz - R) / (numpy.sqrt(2) * eps))),
+                       - numpy.tanh((Ryz - R) / (numpy.sqrt(2) * eps)))
+
+    C = 2 * (C - C.min()) / (C.max() - C.min()) - 1
+
+    return C
+
+
+def sphere_vox(Lx, Ly, Lz, Nx, Ny, Nz, R, eps):
+    x = numpy.linspace(0, Lx, Nx, endpoint=False)
+    y = numpy.linspace(0, Ly, Ny, endpoint=False)
+    z = numpy.linspace(0, Lz, Nz, endpoint=False)
+
+    X, Y, Z = numpy.meshgrid(x, y, z, indexing="ij")
+
+    Rxyz = numpy.sqrt((X - Lx / 2)**2 + (Y - Ly / 2)**2 + (Z - Lz / 2)**2)
+
+    C = numpy.tanh((Rxyz - R) / (numpy.sqrt(2) * eps))
+
+    C = 2 * (C - C.min()) / (C.max() - C.min()) - 1
+
+    return C

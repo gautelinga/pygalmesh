@@ -4,6 +4,7 @@
 #include "generate_from_off_with_features.hpp"
 #include "generate_from_inr.hpp"
 #include "generate_periodic.hpp"
+#include "generate_from_vox.hpp"
 #include "generate_surface_mesh.hpp"
 #include "remesh_surface.hpp"
 #include "orient_surface_mesh.hpp"
@@ -295,6 +296,23 @@ PYBIND11_MODULE(_pygalmesh, m) {
         py::arg("verbose") = true
         );
     m.def(
+        "_generate_mesh_from_vox", &generate_mesh_from_vox,
+        py::arg("infile"),
+        py::arg("outfile"),
+        py::arg("bounding_cuboid"),
+        py::arg("lloyd") = false,
+        py::arg("odt") = false,
+        py::arg("perturb") = true,
+        py::arg("exude") = true,
+        py::arg("edge_size") = 0.0,
+        py::arg("facet_angle") = 0.0,
+        py::arg("facet_size") = 0.0,
+        py::arg("facet_distance") = 0.0,
+        py::arg("cell_radius_edge_ratio") = 0.0,
+        py::arg("cell_size") = 0.0,
+        py::arg("verbose") = true
+        );
+    m.def(
         "_generate_periodic_mesh", &generate_periodic_mesh,
         py::arg("domain"),
         py::arg("outfile"),
@@ -309,6 +327,42 @@ PYBIND11_MODULE(_pygalmesh, m) {
         py::arg("facet_distance") = 0.0,
         py::arg("cell_radius_edge_ratio") = 0.0,
         py::arg("cell_size") = 0.0,
+        py::arg("number_of_copies_in_output") = 1,
+        py::arg("verbose") = true
+        );
+    m.def(
+        "_generate_periodic_mesh_from_vox", &generate_periodic_mesh_from_vox,
+        py::arg("infile"),
+        py::arg("outfile"),
+        py::arg("bounding_cuboid"),
+        py::arg("lloyd") = false,
+        py::arg("odt") = false,
+        py::arg("perturb") = true,
+        py::arg("exude") = true,
+        py::arg("edge_size") = 0.0,
+        py::arg("facet_angle") = 0.0,
+        py::arg("facet_size") = 0.0,
+        py::arg("facet_distance") = 0.0,
+        py::arg("cell_radius_edge_ratio") = 0.0,
+        py::arg("cell_size") = 0.0,
+        py::arg("number_of_copies_in_output") = 1,
+        py::arg("verbose") = true
+        );
+    m.def(
+        "_generate_periodic_mesh_from_vox_with_sizing_field", &generate_periodic_mesh_from_vox_with_sizing_field,
+        py::arg("infile"),
+        py::arg("outfile"),
+        py::arg("bounding_cuboid"),
+	py::arg("cell_size_file"),
+        py::arg("lloyd") = false,
+        py::arg("odt") = false,
+        py::arg("perturb") = true,
+        py::arg("exude") = true,
+        py::arg("edge_size") = 0.0,
+        py::arg("facet_angle") = 0.0,
+        py::arg("facet_size") = 0.0,
+        py::arg("facet_distance") = 0.0,
+        py::arg("cell_radius_edge_ratio") = 0.0,
         py::arg("number_of_copies_in_output") = 1,
         py::arg("verbose") = true
         );

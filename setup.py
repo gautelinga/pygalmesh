@@ -34,6 +34,7 @@ ext_modules = [
         "_pygalmesh",
         [
             "src/generate.cpp",
+            "src/generate_from_vox.cpp",
             "src/generate_from_inr.cpp",
             "src/generate_from_off.cpp",
             "src/generate_from_off_with_features.cpp",

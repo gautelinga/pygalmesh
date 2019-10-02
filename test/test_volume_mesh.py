@@ -565,5 +565,33 @@ def test_ball_with_sizing_field():
     return
 
 
+def test_vox():
+    R = 0.2
+    eps = 0.02
+    Nx = 10
+    Ny = 11
+    Nz = 12
+    Lx = Ly = Lz = 1
+
+    C = helpers.sphere_vox(Lx, Ly, Lz, Nx, Ny, Nz, R, eps)
+
+    mesh = pygalmesh.generate_mesh_from_vox(
+        C,
+        [Lx, Ly, Lz],
+        [0, 0, 0, Lx, Ly, Lz],
+        cell_size=0.2,
+        facet_angle=30,
+        facet_size=0.05,
+        facet_distance=0.025,
+        cell_radius_edge_ratio=2.0,
+        verbose=False,
+    )
+    return mesh
+
+
 if __name__ == "__main__":
-    test_ball_with_sizing_field()
+    # test_ball_with_sizing_field()
+
+    mesh = test_vox()
+    import meshio
+    meshio.write("out_vox_vol.vtk", mesh)
